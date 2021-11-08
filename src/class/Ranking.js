@@ -44,49 +44,6 @@ export default class Ranking {
   }
 
   /**
-   * Generates possible match pairing based on the current rating of the players
-   * Expects playerRatings to be in the order of sortPlayerRatingsByCurrentRatingDesc().
-   *
-   * Will group Players like:
-   * [[1, 2], [3, 4], [5, 6], ...]
-   *
-   * If the number of players is odd, the last player will not play
-   * @returns {[[PlayerRating]]} A list of opponents
-   */
-  getCurrentRatingPairMatches() {
-    const res = [];
-    // the minus one is, so we don't get a single element if we have an odd number of players
-    for (let i = 0; i < this.playerRatings.length - 1; i += 2) {
-      res.push([this.playerRatings[i], this.playerRatings[i + 1]]);
-    }
-
-    return res;
-  }
-
-  /**
-   * Creates a list of random matches
-   * @returns {[[PlayerRating]]} A list of opponents
-   */
-  getRandomOpponentMatches() {
-    const playerRatingsCopy = [...this.playerRatings];
-
-    const res = [];
-    for (let i = 0; i < this.playerRatings.length - 1; i += 2) {
-      const match = [];
-      for (let j = 0; j < 2; j++) {
-        match.push(
-          playerRatingsCopy.splice(
-            Math.floor(Math.random() * playerRatingsCopy.length),
-            1
-          )
-        );
-      }
-      res.push(match);
-    }
-    return res;
-  }
-
-  /**
    * Find all cases where the current order doesn't match the order given by strength
    * @returns {[{
    *  playerRating: PlayerRating,

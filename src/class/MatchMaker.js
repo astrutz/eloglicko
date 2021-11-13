@@ -73,4 +73,31 @@ export default class MatchMaker {
     }
     return res;
   }
+
+  /**
+   * Generates possible match pairing based on the current rating of the players as seeding
+   * Expects playerRatings to be in the order of sortPlayerRatingsByCurrentRatingDesc().
+   *
+   * Will group n Players like:
+   * [[1, n], [2, n - 1], [3, n - 2], ...]
+   * 
+   * For 8 players it will be:
+   * [[1, 8], [2, 7], [3, 6], [4, 5]]
+   *
+   * If the number of players is odd, the last player will not play
+   * @returns {[[PlayerRating]]} A list of opponents
+   */
+   getSeedingMatches() {
+    const res = [];
+    // the minus one is, so we don't get a single element if we have an odd number of players
+    for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
+      res.push(
+        new Match(
+          this.ranking.playerRatings[i],
+          this.ranking.playerRatings[this.ranking.playerRatings.length - i]
+        )
+      );
+    }
+    return res;
+  }
 }

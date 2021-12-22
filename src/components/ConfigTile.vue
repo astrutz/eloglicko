@@ -30,13 +30,13 @@
             Häufigkeit der Spiele
           </p>
           <v-text-field
-            v-model="matchCount"
+            v-model="numberOfMatchesPerPlayer"
             label="Anzahl der Spiele pro Spieler"
             type="number"
-            :rules="matchCountRules"
+            :rules="numberOfMatchesPerPlayerRules"
           ></v-text-field>
           <v-checkbox
-            v-model="doubleMatches"
+            v-model="multipleMatches"
             label="Spieler können mehrfach aufeinander treffen"
           ></v-checkbox>
         </v-col>
@@ -66,13 +66,19 @@ export default {
       { label: "Elo-Rating", value: "elo" },
       { label: "Glicko-Rating", value: "glicko" },
     ],
-    matchCountRules: [(v) => v <= 0 || "Mindestanzahl: 1 Spiel"],
-    matchCount: 0,
-    doubleMatches: false,
+    numberOfMatchesPerPlayerRules: [(v) => v > 0 || "Mindestanzahl: 1 Spiel"],
+    numberOfMatchesPerPlayer: 0,
+    multipleMatches: false,
   }),
   methods: {
     startSimulation() {
-      console.log(this.$store.state.players[0].color);
+      const configuration = {
+        matchMaker: this.chosenMatchMaker,
+        ratingSystem: this.chosenRatingSystem,
+        numberOfMatchesPerPlayer: parseInt(this.numberOfMatchesPerPlayer),
+        multipleMatches: this.multipleMatches
+      };
+      this.$store.commit('setConfiguration', configuration)
     },
   },
 };

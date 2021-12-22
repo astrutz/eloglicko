@@ -5,7 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    players: []
+    players: [],
+    configuration: {
+      matchMaker: 'random',
+      ratingSystem: 'elo',
+      numberOfMatchesPerPlayer: 0,
+      multipleMatches: false
+    }
   },
   mutations: {
     addPlayer(state, player) {
@@ -16,6 +22,9 @@ export default new Vuex.Store({
     },
     changePlayerColor(state, playerID) {
       state.players.find((p) => p.id === playerID).color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    },
+    setConfiguration(state, configuration) {
+      state.configuration = configuration;
     }
   }
 })

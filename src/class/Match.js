@@ -15,9 +15,9 @@ export default class Match {
     this.opponents = [playerA, playerB];
     const result = playerA.winsAgainst(playerB);
     if (result < 0) {
-      winner = playerB;
+      this.winner = playerB;
     } else if (result > 0) {
-      winner = playerA;
+      this.winner = playerA;
     }
   }
 }

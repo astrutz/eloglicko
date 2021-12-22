@@ -5,7 +5,7 @@
       <v-row>
         <v-col class="pb-0">
           <v-radio-group class="mt-0" v-model="chosenMatchMaker" mandatory>
-            <p class="text-subtitle-1" >Zusammenstellung der Spiele</p>
+            <p class="text-subtitle-1">Zusammenstellung der Spiele</p>
             <v-radio
               v-for="matchMaker in matchMakers"
               :key="matchMaker.value"
@@ -16,7 +16,7 @@
         </v-col>
         <v-col class="pb-0">
           <v-radio-group class="mt-0" v-model="chosenRatingSystem" mandatory>
-            <p class="text-subtitle-1" >Bewertung der Spiele</p>
+            <p class="text-subtitle-1">Bewertung der Spiele</p>
             <v-radio
               v-for="ratingSystem in ratingSystems"
               :key="ratingSystem.value"
@@ -26,19 +26,26 @@
           </v-radio-group>
         </v-col>
         <v-col class="pb-0">
-          <p class="text-subtitle-1" style="color: black">Häufigkeit der Spiele</p>
+          <p class="text-subtitle-1" style="color: black">
+            Häufigkeit der Spiele
+          </p>
           <v-text-field
             v-model="matchCount"
             label="Anzahl der Spiele pro Spieler"
             type="number"
             :rules="matchCountRules"
           ></v-text-field>
-          <v-checkbox v-model="doubleMatches" label="Spieler können mehrfach aufeinander treffen"></v-checkbox>
+          <v-checkbox
+            v-model="doubleMatches"
+            label="Spieler können mehrfach aufeinander treffen"
+          ></v-checkbox>
         </v-col>
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="startSimulation()" class="ml-3" color="primary">Spiele starten</v-btn>
+      <v-btn @click="startSimulation()" class="ml-3" color="primary"
+        >Spiele starten</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
@@ -61,12 +68,12 @@ export default {
     ],
     matchCountRules: [(v) => v <= 0 || "Mindestanzahl: 1 Spiel"],
     matchCount: 0,
-    doubleMatches: false
+    doubleMatches: false,
   }),
   methods: {
     startSimulation() {
-      console.log('plöm');
-    }
+      console.log(this.$store.state.players[0].color);
+    },
   },
 };
 </script>

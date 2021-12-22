@@ -4,13 +4,24 @@
     <v-card-text>
       <v-row>
         <v-col class="pb-0">
-          <v-radio-group class="mt-0" v-model="opponentCreation" mandatory>
+          <v-radio-group class="mt-0" v-model="chosenMatchMaker" mandatory>
             <p class="text-subtitle-1" >Zusammenstellung der Spiele</p>
             <v-radio
               v-for="matchMaker in matchMakers"
-              :key="matchMaker"
+              :key="matchMaker.value"
               :label="matchMaker.label"
               :value="matchMaker.value"
+            ></v-radio>
+          </v-radio-group>
+        </v-col>
+        <v-col class="pb-0">
+          <v-radio-group class="mt-0" v-model="chosenRatingSystem" mandatory>
+            <p class="text-subtitle-1" >Bewertung der Spiele</p>
+            <v-radio
+              v-for="ratingSystem in ratingSystems"
+              :key="ratingSystem.value"
+              :label="ratingSystem.label"
+              :value="ratingSystem.value"
             ></v-radio>
           </v-radio-group>
         </v-col>
@@ -27,7 +38,7 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn class="ml-3" color="primary">Spiele starten</v-btn>
+      <v-btn @click="startSimulation()" class="ml-3" color="primary">Spiele starten</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -40,13 +51,22 @@ export default {
     matchMakers: [
       { label: "Zufällig", value: "random" },
       { label: "Setzliste", value: "seeding" },
-      { label: "Möglichst starke Gegner", value: "evenOpponents" },
+      { label: "Möglichst gleich starke Gegner", value: "evenOpponents" },
       { label: "Manuell", value: "manual" },
+    ],
+    chosenRatingSystem: null,
+    ratingSystems: [
+      { label: "Elo-Rating", value: "elo" },
+      { label: "Glicko-Rating", value: "glicko" },
     ],
     matchCountRules: [(v) => v <= 0 || "Mindestanzahl: 1 Spiel"],
     matchCount: 0,
     doubleMatches: false
   }),
-  methods: {},
+  methods: {
+    startSimulation() {
+      console.log('plöm');
+    }
+  },
 };
 </script>

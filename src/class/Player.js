@@ -12,16 +12,21 @@ export default class Player {
    * @type {string} The name of the player
    */
   name;
+  /**
+   * @type {string} The ID of the player
+   */
+   id;
 
   /**
-   * @param {Obeject} options
+   * @param {Object} options
    * @param {number} options.strength
    * @param {string} options.color
    */
-  constructor({ strength, color = "#000", name = "" }) {
+  constructor({ strength, color = "#000", name = "", id="" }) {
     this.strength = strength;
     this.color = color;
     this.name = name;
+    this.id = id;
   }
 
   /**

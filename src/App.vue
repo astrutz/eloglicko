@@ -5,7 +5,7 @@
       <v-container fluid>
         <v-row>
           <v-col cols="4">
-            <UserTile/>
+            <PlayerTile/>
           </v-col>
           <v-col cols="8">
             <ConfigTile/>
@@ -24,7 +24,7 @@
 
 <script>
 
-import UserTile from './components/UserTile.vue';
+import PlayerTile from './components/PlayerTile.vue';
 import ConfigTile from './components/ConfigTile.vue';
 import GraphTile from './components/GraphTile.vue';
 import DetailTile from './components/DetailTile.vue';
@@ -33,7 +33,7 @@ export default {
   name: 'App',
 
   components: {
-    UserTile,
+    PlayerTile,
     ConfigTile,
     GraphTile,
     DetailTile,

@@ -82,7 +82,7 @@ export default {
     addPlayer() {
       if (this.playerStrengthInput && this.playerNameInput) {
         const createdPlayer = new Player({
-          strength: this.playerStrengthInput,
+          strength: parseInt(this.playerStrengthInput),
           color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
           name: this.playerNameInput,
           id: uuidv4(),

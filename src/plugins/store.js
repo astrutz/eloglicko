@@ -11,7 +11,9 @@ export default new Vuex.Store({
       ratingSystem: 'elo',
       numberOfMatchesPerPlayer: 0,
       multipleMatches: false
-    }
+    },
+    currentTournament: null,
+    tournamentHistory: []
   },
   mutations: {
     addPlayer(state, player) {
@@ -25,6 +27,12 @@ export default new Vuex.Store({
     },
     setConfiguration(state, configuration) {
       state.configuration = configuration;
+    },
+    addTournament(state, matches) {
+      if (state.currentTournament) {
+        state.tournamentHistory.push(state.currentTournament);
+      }
+      state.currentTournament = matches;
     }
   }
 })

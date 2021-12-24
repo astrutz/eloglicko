@@ -6,22 +6,22 @@ import PlayerRating from "./PlayerRating.js";
 
 export default class Ranking {
   /**
-   * @type {Player}
+   * @type {[Player]}
    */
-  players;
+  players = [];
 
   /**
    * @type {[PlayerRating]}
    */
-  playerRatings;
+  playerRatings = [];
 
   /**
    * @type {number}
    */
-  defaultInitialRating;
+  defaultInitialRating = 100;
 
   /**
-   * Add a player to this ranking and automatically add a palyer rating to keep his history
+   * Add a player to this ranking and automatically add a player rating to keep his history
    * The players list will always keep a descending order of strength
    * The playerRatings list is unordered. It can be sorted with the sortPlayerRatingsBy[]() methods or
    * truely randomized by calling randomizePlayerRatingsOrder().
@@ -59,7 +59,7 @@ export default class Ranking {
         playerRating.player
       );
       const strengthPosition = this.getPlayerExpectedPosition(
-        playerRating.palyer
+        playerRating.player
       );
       if (strengthPosition !== currentPosition) {
         deviations.push({

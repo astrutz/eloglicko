@@ -60,9 +60,9 @@ export default class MatchMaker {
 
     const res = [];
     for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
-      const opponents = [];
+      let opponents = [];
       for (let j = 0; j < 2; j++) {
-        opponents.push(
+        opponents = opponents.concat(
           playerRatingsCopy.splice(
             Math.floor(Math.random() * playerRatingsCopy.length),
             1

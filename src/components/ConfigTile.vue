@@ -11,6 +11,7 @@
               :key="matchMaker.value"
               :label="matchMaker.label"
               :value="matchMaker.value"
+              :disabled="matchMaker.value === 'manual' ||matchMaker.value === 'seeding'"
             ></v-radio>
           </v-radio-group>
         </v-col>
@@ -47,10 +48,21 @@
         >Spiele starten</v-btn
       >
     </v-card-actions>
+    <v-snackbar v-model="showSnackbar">
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="showSnackbar = false">
+          Schließen
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
 <script>
+import simulate from "../plugins/simulate";
+
 export default {
   name: "ConfigTile",
   data: () => ({
@@ -67,8 +79,10 @@ export default {
       { label: "Glicko-Rating", value: "glicko" },
     ],
     numberOfMatchesPerPlayerRules: [(v) => v > 0 || "Mindestanzahl: 1 Spiel"],
-    numberOfMatchesPerPlayer: 0,
+    numberOfMatchesPerPlayer: 1,
     multipleMatches: false,
+    showSnackbar: false,
+    snackbarText: "Lege mindestens einen Spieler an!",
   }),
   methods: {
     startSimulation() {
@@ -76,9 +90,15 @@ export default {
         matchMaker: this.chosenMatchMaker,
         ratingSystem: this.chosenRatingSystem,
         numberOfMatchesPerPlayer: parseInt(this.numberOfMatchesPerPlayer),
-        multipleMatches: this.multipleMatches
+        multipleMatches: this.multipleMatches,
       };
-      this.$store.commit('setConfiguration', configuration)
+      this.$store.commit("setConfiguration", configuration);
+      if (this.$store.state.players.length !== 0) {
+        simulate();
+      } else {
+        this.showSnackbar = true;
+      }
+      console.log(this.$store.state.currentTournament);
     },
   },
 };

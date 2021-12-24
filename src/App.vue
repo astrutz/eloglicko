@@ -13,7 +13,10 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12">
+          <v-col cols="4">
+          <RankingTile/>
+          </v-col>
+          <v-col cols="8">
           <DetailTile/>
           </v-col>
         </v-row>
@@ -27,6 +30,7 @@
 import PlayerTile from './components/PlayerTile.vue';
 import ConfigTile from './components/ConfigTile.vue';
 import GraphTile from './components/GraphTile.vue';
+import RankingTile from './components/RankingTile.vue';
 import DetailTile from './components/DetailTile.vue';
 
 export default {
@@ -36,7 +40,8 @@ export default {
     PlayerTile,
     ConfigTile,
     GraphTile,
-    DetailTile,
+    RankingTile,
+    DetailTile
   },
 
   data: () => ({

@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="currentTournament" min-height="400px" elevation="2">
+  <v-card v-if="currentTournament" elevation="2">
     <v-card-title>Ergebnisse</v-card-title>
     <v-card-text>
       <!-- TODO -->

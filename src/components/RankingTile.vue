@@ -17,6 +17,11 @@
             >Stärke: {{ player.strength }}</v-list-item-subtitle
           >
         </v-list-item-content>
+        <v-list-item-icon class="ma-0 pl-0">
+          <v-col class="pb-0 d-flex justify-center">
+            <v-icon :color="player.color">mdi-chess-pawn</v-icon>
+          </v-col>
+        </v-list-item-icon>
       </v-list-item>
     </v-card-text>
   </v-card>

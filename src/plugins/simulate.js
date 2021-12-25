@@ -1,10 +1,3 @@
-/*
-✅ Ranking mit Playern erstellen
-✅ MatchMaker mit dem Ranking erstellen
-✅ MatchMaker sagen, dass er Matches erstellen soll und diese Matches mit addMatch wieder hinzufügen
-TODO: Updaten der Spielerratings (Elo/Glicko, noch nicht implementiert) - Kind von Ranking
-*/
-
 import MatchMaker from '../class/MatchMaker';
 import Ranking from '../class/Ranking';
 import store from './store';
@@ -13,10 +6,13 @@ export default () => {
   const ranking = getInitialRanking();
   const matchMaker = getMatchMaker(ranking);
   setPlayerRatings(matchMaker, ranking);
-
   store.commit('addTournament', matchMaker);
 };
 
+/**
+ * Create a new ranking with all players
+ * @returns {Ranking}
+ */
 function getInitialRanking() {
   const ranking = new Ranking();
   // TODO: If wanted, addPlayer() can take a player rating as second argument, otherwise defaultInitialRating from Ranking.js is used

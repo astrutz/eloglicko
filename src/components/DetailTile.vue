@@ -2,7 +2,6 @@
   <v-card v-if="currentTournament" elevation="2">
     <v-card-title>Ergebnisse</v-card-title>
     <v-card-text>
-      <!-- TODO -->
       <v-row>
         <v-col
           cols="3"

@@ -98,8 +98,6 @@ export default class PlayerRating {
     // const c = 34.64;
     // const ratingDeviation = Math.min(Math.sqrt(Math.pow(this.currentRating, this.currentRating) + Math.pow(c, c)), this.GLICKO_RATING_DEVIATION);
     // TODO: What's next
-
-    // TODO: Unentschieden
   }
 
 }

@@ -4,6 +4,15 @@
 
 export default class PlayerRating {
   /**
+   * @type {number}
+   */
+  ELO_KENNETH_HARKNESS_MAGIC = 400;
+  ELO_MAX_POSSIBLE_POINTSWITCH = 40;
+  ELO_INITIAL_RATING = 100;
+  GLICKO_RATING_DEVIATION = 350;
+  GLICKO_INITIAL_RATING = 1500;
+
+  /**
    * @type {[number]}
    */
   ratings = [];
@@ -55,4 +64,43 @@ export default class PlayerRating {
     const samples = this.ratings.slice(-sampleCount);
     return samples.reduce((acc, cur) => acc + cur, 0) / samples.length;
   }
+
+  /**
+   * Calculates the elo score after a match
+   * @param {PlayerRating} opponent 
+   * @param {Boolean} hasWon 
+   */
+  calculateEloScore(opponent, hasWon) {
+    console.log(this.currentRating);
+    console.log(this.ratings.length);
+    if (this.ratings.length === 1) {
+      this.currentRating = this.ELO_INITIAL_RATING;
+    }
+    console.log(this.currentRating);
+    const expectationValue = parseFloat((1 / (1 + Math.pow(10, ((this.currentRating - opponent.currentRating) / this.ELO_KENNETH_HARKNESS_MAGIC)))).toFixed(3));
+    if (hasWon) {
+      this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (1 - expectationValue).toFixed(1);
+    } else {
+      this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (0 - expectationValue).toFixed(1);
+    }
+    // TODO: Unentschieden
+  }
+
+  /**
+   * Calculates the glicko score after a match
+   * @param {PlayerRating} opponent 
+   * @param {Boolean} hasWon 
+   */
+  calculateGlickoScore() {
+    if (this.ratings.length === 1) {
+      this.currentRating = this.GLICKO_INITIAL_RATING;
+    }
+    // TODO: Use a good c
+    // const c = 34.64;
+    // const ratingDeviation = Math.min(Math.sqrt(Math.pow(this.currentRating, this.currentRating) + Math.pow(c, c)), this.GLICKO_RATING_DEVIATION);
+    // TODO: What's next
+
+    // TODO: Unentschieden
+  }
+
 }

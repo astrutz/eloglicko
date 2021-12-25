@@ -16,20 +16,14 @@ export default class Ranking {
   playerRatings = [];
 
   /**
-   * @type {number}
-   */
-  defaultInitialRating = 100;
-
-  /**
    * Add a player to this ranking and automatically add a player rating to keep his history
    * The players list will always keep a descending order of strength
    * The playerRatings list is unordered. It can be sorted with the sortPlayerRatingsBy[]() methods or
    * truely randomized by calling randomizePlayerRatingsOrder().
    * @param {Player} player The player to add
-   * @param {number} [initialRating=this.defaultInitialRating] Initial Rating for the Player Rating in this ranking
    */
-  addPlayer(player, initialRating = this.defaultInitialRating) {
-    this.playerRatings.push(new PlayerRating(player, initialRating));
+  addPlayer(player) {
+    this.playerRatings.push(new PlayerRating(player));
     this.players.push(player);
     this.players.sort((a, b) => b.winsAgainst(a));
   }
@@ -40,7 +34,7 @@ export default class Ranking {
    * @returns {PlayerRating|undefined} The PlayerRating if it exists, else undefined
    */
   getPlayerRatingForPlayer(player) {
-    return this.playerRatings.find((p) => p === player);
+    return this.playerRatings.find((p) => p.id === player.id);
   }
 
   /**

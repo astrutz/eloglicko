@@ -12,19 +12,19 @@ export default class Match {
 
   /**
    *
-   * @param {PlayerRating} playerA
-   * @param {PlayerRating} playerB
+   * @param {PlayerRating} playerRatingA
+   * @param {PlayerRating} playerRatingB
    */
-  constructor(playerA, playerB) {
+  constructor(playerRatingA, playerRatingB) {
     this.id = uuidv4();
-    this.opponents = [playerA, playerB];
-    const result = playerA.player.winsAgainst(playerB.player);
+    this.opponents = [playerRatingA, playerRatingB];
+    const result = playerRatingA.player.winsAgainst(playerRatingB.player);
     if (result < 0) {
-      this.winner = playerB;
-      this.loser = playerA;
+      this.winner = playerRatingB;
+      this.loser = playerRatingA;
     } else if (result > 0) {
-      this.winner = playerA;
-      this.loser = playerB;
+      this.winner = playerRatingA;
+      this.loser = playerRatingB;
     }
   }
 }

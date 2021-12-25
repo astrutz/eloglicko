@@ -98,7 +98,6 @@ export default {
       } else {
         this.showSnackbar = true;
       }
-      console.log(this.$store.state.currentTournament);
     },
   },
 };

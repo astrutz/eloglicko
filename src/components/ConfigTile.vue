@@ -39,6 +39,7 @@
           <v-checkbox
             v-model="multipleMatches"
             label="Spieler können mehrfach aufeinander treffen"
+            disabled
           ></v-checkbox>
         </v-col>
       </v-row>

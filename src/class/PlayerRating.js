@@ -71,12 +71,9 @@ export default class PlayerRating {
    * @param {Boolean} hasWon 
    */
   calculateEloScore(opponent, hasWon) {
-    console.log(this.currentRating);
-    console.log(this.ratings.length);
     if (this.ratings.length === 1) {
       this.currentRating = this.ELO_INITIAL_RATING;
     }
-    console.log(this.currentRating);
     const expectationValue = parseFloat((1 / (1 + Math.pow(10, ((this.currentRating - opponent.currentRating) / this.ELO_KENNETH_HARKNESS_MAGIC)))).toFixed(3));
     if (hasWon) {
       this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (1 - expectationValue).toFixed(1);

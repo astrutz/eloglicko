@@ -25,6 +25,9 @@ export default class Match {
     } else if (result > 0) {
       this.winner = playerRatingA;
       this.loser = playerRatingB;
+    } else if (result === 0) {
+      this.winner = undefined;
+      this.loser = undefined;
     }
   }
 }

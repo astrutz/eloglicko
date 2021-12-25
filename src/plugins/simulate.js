@@ -54,11 +54,16 @@ function setPlayerRatings(matchMaker, ranking) {
   matchMaker.matches.forEach((round) => {
     round.forEach((match) => {
       if(isElo) {
-        match.winner.calculateEloScore(match.loser, true);
-        match.loser.calculateEloScore(match.winner, false);
+        if(match.winner) {
+          match.winner.calculateEloScore(match.loser, 1);
+          match.loser.calculateEloScore(match.winner, -1);
+        } else {
+          match.opponents[0].calculateEloScore(match.opponents[1], 0);
+          match.opponents[1].calculateEloScore(match.opponents[0], 0);
+        }
       } else {
-        match.winner.calculateGlickoScore(match.loser, true);
-        match.loser.calculateGlickoScore(match.winner, false);
+        match.winner.calculateGlickoScore(match.loser, 1);
+        match.loser.calculateGlickoScore(match.winner, -1);
       }    
     });
   });

@@ -4,13 +4,23 @@
     <v-card-text>
       <!-- TODO -->
       <v-row>
-        <v-col cols="3" v-for="(round, index) in currentTournament.matches" :key="index">
+        <v-col
+          cols="3"
+          v-for="(round, index) in currentTournament.matches"
+          :key="index"
+        >
           <v-card elevation="2">
             <v-card-title>Runde {{ index + 1 }}</v-card-title>
             <v-card-text>
               <p v-for="match in round" :key="match.id">
-              {{ match.winner.player.name }} gewinnt gegen
-              {{ match.loser.player.name }}
+                <span v-if="match.winner">
+                  {{ match.winner.player.name }} gewinnt gegen
+                  {{ match.loser.player.name }}
+                </span>
+                <span v-else>
+                  {{ match.opponents[0].player.name }} spielt remis
+                  gegen {{ match.opponents[1].player.name }}
+                </span>
               </p>
             </v-card-text>
           </v-card>

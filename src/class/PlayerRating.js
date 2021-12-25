@@ -68,25 +68,27 @@ export default class PlayerRating {
   /**
    * Calculates the elo score after a match
    * @param {PlayerRating} opponent 
-   * @param {Boolean} hasWon 
+   * @param {Number} result Is 1 if player has won, 0 if remis and -1 if player has lost
    */
-  calculateEloScore(opponent, hasWon) {
+  calculateEloScore(opponent, result) {
     if (this.ratings.length === 1) {
       this.currentRating = this.ELO_INITIAL_RATING;
     }
     const expectationValue = parseFloat((1 / (1 + Math.pow(10, ((this.currentRating - opponent.currentRating) / this.ELO_KENNETH_HARKNESS_MAGIC)))).toFixed(3));
-    if (hasWon) {
+    if (result === 1) {
       this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (1 - expectationValue).toFixed(1);
-    } else {
+    } else if (result === -1) {
       this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (0 - expectationValue).toFixed(1);
+    } else if (result === 0) {
+      this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (0.5 - expectationValue).toFixed(1);
     }
-    // TODO: Unentschieden
+    
   }
 
   /**
    * Calculates the glicko score after a match
    * @param {PlayerRating} opponent 
-   * @param {Boolean} hasWon 
+   * @param {Number} result Is 1 if player has won, 0 if remis and -1 if player has lost
    */
   calculateGlickoScore() {
     if (this.ratings.length === 1) {

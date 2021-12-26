@@ -74,7 +74,7 @@ export default class PlayerRating {
       name: this.player.name,
       color: this.player.color,
       rating,
-      round: i
+      round: i - 1
     }));
     ratings.shift();
     return ratings;

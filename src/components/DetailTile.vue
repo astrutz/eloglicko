@@ -16,9 +16,12 @@
                   {{ match.winner.player.name }} gewinnt gegen
                   {{ match.loser.player.name }}
                 </span>
+                <span v-else-if="match.loser === -1">
+                  {{ match.opponents[0].player.name }} hat spielfrei
+                </span>
                 <span v-else>
-                  {{ match.opponents[0].player.name }} spielt remis
-                  gegen {{ match.opponents[1].player.name }}
+                  {{ match.opponents[0].player.name }} spielt remis gegen
+                  {{ match.opponents[1].player.name }}
                 </span>
               </p>
             </v-card-text>

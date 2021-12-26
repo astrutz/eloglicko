@@ -47,7 +47,10 @@ export default class MatchMaker {
         )
       );
     }
-
+    // TODO: Track if a player misses a round ("spielfrei") - set the same current rating again and add a match with null a opponent
+    // playerRatingsCopy.forEach((rating) => {
+    //   res.push(new Match(...[rating, null]));
+    // });
     return res;
   }
 
@@ -71,6 +74,9 @@ export default class MatchMaker {
       }
       res.push(new Match(...opponents));
     }
+    playerRatingsCopy.forEach((rating) => {
+      res.push(new Match(...[rating, null]));
+    });
     return res;
   }
 
@@ -87,7 +93,7 @@ export default class MatchMaker {
    * If the number of players is odd, the last player will not play
    * @returns {[[PlayerRating]]} A list of opponents
    */
-   getSeedingMatches() {
+  getSeedingMatches() {
     const res = [];
     // the minus one is, so we don't get a single element if we have an odd number of players
     for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
@@ -98,6 +104,10 @@ export default class MatchMaker {
         )
       );
     }
+    // TODO: Track if a player misses a round ("spielfrei") - set the same current rating again and add a match with null a opponent
+    // playerRatingsCopy.forEach((rating) => {
+    //   res.push(new Match(...[rating, null]));
+    // });
     return res;
   }
 }

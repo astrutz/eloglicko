@@ -30,10 +30,9 @@ function getMatchMaker(ranking) {
   let matches;
   for (let i = 0; i < store.state.configuration.numberOfMatchesPerPlayer; i++) {
     switch (store.state.configuration.matchMaker) {
-      // TODO: Track if a player misses a round ("spielfrei") - set the same current rating again and add a match with null a opponent
       case 'random': matches = matchMaker.getRandomOpponentMatches(); break;
       // case 'seeding': matches = matchMaker.getSeedingMatches(); break; //FIXME
-      // case 'evenOpponents': matches = matchMaker.getRandomOpponentMatches(); break;
+      // case 'evenOpponents': matches = matchMaker.getCurrentRatingPairMatches(); break;
       // case 'manual': matches = matchMaker.getRandomOpponentMatches(); break; //TODO
     }
     matchMaker.addMatch(matches);
@@ -52,11 +51,23 @@ function setPlayerRatings(matchMaker, ranking) {
     round.forEach((match) => {
       if(isElo) {
         if(match.winner) {
+          // Sieg/Niederlage
           match.winner.calculateEloScore(match.loser, 1);
           match.loser.calculateEloScore(match.winner, -1);
-        } else {
+        } else if(match.opponents[1]) {
+          // Unentschieden
           match.opponents[0].calculateEloScore(match.opponents[1], 0);
           match.opponents[1].calculateEloScore(match.opponents[0], 0);
+        } else {
+          // Spielfrei
+          // Spielfrei am ersten Spieltag
+          if(match.opponents[0].ratings.length === 1) {
+            match.opponents[0].ratings.push(100);
+            match.opponents[0].ratings.push(100);
+          } else {
+          // eslint-disable-next-line no-self-assign
+          match.opponents[0].currentRating = match.opponents[0].currentRating;
+          }
         }
       } else {
         match.winner.calculateGlickoScore(match.loser, 1);

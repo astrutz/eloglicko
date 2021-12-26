@@ -1,5 +1,5 @@
 <template>
-  <v-card style="height: 400px" elevation="2">
+  <v-card style="max-height: 600px" elevation="2">
     <v-card-title>Graph</v-card-title>
     <v-card-text>
       <div id="chart"></div>
@@ -15,46 +15,55 @@ export default {
   components: {},
   data: () => ({
     svg: null,
+    dataset: [],
   }),
-  mounted() {
-    this.setUpChart();
+  computed: {
+    currentTournament() {
+      return this.$store.state.currentTournament;
+    },
   },
+  watch: {
+    currentTournament: function () {
+      this.initDataset();
+      this.setUpChart();
+    },
+  },
+  mounted() {},
   methods: {
-    setUpChart() {
-      this.svg = this.LineChart(
-        [
-          {
-            division: "Markus",
-            date: 1,
-            unemployment: 5.6,
-          },
-          {
-            division: "Markus",
-            date: 2,
-            unemployment: 8.6,
-          },
-          {
-            division: "Tom",
-            date: 1,
-            unemployment: 2.6,
-          },
-          {
-            division: "Tom",
-            date: 2,
-            unemployment: 12.6,
-          },
-        ],
-        {
-          x: (d) => d.date,
-          y: (d) => d.unemployment,
-          z: (d) => d.division,
-          xLabel: "Runde",
-          yLabel: "↑ Rating",
-          width: 1000,
-          height: 300,
-          color: "steelblue",
-        }
+    initDataset() {
+      this.dataset = [];
+      this.currentTournament.ranking.playerRatings.forEach(
+        (rating) =>
+          (this.dataset = this.dataset.concat(rating.getGraphRating()))
       );
+    },
+    getYDomain() {
+      let highest = -100000;
+      let lowest = 100000;
+      this.dataset.forEach((data) => {
+        if (data.rating > highest) {
+          highest = data.rating;
+        }
+        if (data.rating < lowest) {
+          lowest = data.rating;
+        }
+      });
+      return [lowest - 10, highest + 10];
+    },
+    setUpChart() {
+      d3.select("svg").remove();
+      this.svg = this.LineChart(this.dataset, {
+        x: (d) => d.round,
+        y: (d) => d.rating,
+        z: (d) => d.name,
+        xLabel: "Runde",
+        yLabel: "↑ Rating",
+        width: 1200,
+        height: 500,
+        color: (z) => this.dataset.find((data) => data.name === z).color,
+        yDomain: this.getYDomain(),
+        strokeWidth: 2
+      });
       d3.select("#chart").node().append(this.svg);
     },
     // Copyright 2021 Observable, Inc.

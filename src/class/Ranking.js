@@ -160,4 +160,5 @@ export default class Ranking {
   sortPlayerRatingsByCurrentRatingAsc() {
     this.playerRatings.sort((a, b) => a.currentRating - b.currentRating);
   }
+
 }

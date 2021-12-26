@@ -30,9 +30,10 @@ function getMatchMaker(ranking) {
   let matches;
   for (let i = 0; i < store.state.configuration.numberOfMatchesPerPlayer; i++) {
     switch (store.state.configuration.matchMaker) {
+      // TODO: Track if a player misses a round ("spielfrei") - set the same current rating again and add a match with null a opponent
       case 'random': matches = matchMaker.getRandomOpponentMatches(); break;
-      case 'seeding': matches = matchMaker.getSeedingMatches(); break; //FIXME
-      case 'evenOpponents': matches = matchMaker.getRandomOpponentMatches(); break;
+      // case 'seeding': matches = matchMaker.getSeedingMatches(); break; //FIXME
+      // case 'evenOpponents': matches = matchMaker.getRandomOpponentMatches(); break;
       // case 'manual': matches = matchMaker.getRandomOpponentMatches(); break; //TODO
     }
     matchMaker.addMatch(matches);

@@ -66,6 +66,21 @@ export default class PlayerRating {
   }
 
   /**
+   * Gets the ratings as a suitable array for d3.js
+   * @returns {[Object]}
+   */
+  getGraphRating() {
+    const ratings = this.ratings.map((rating, i) => ({
+      name: this.player.name,
+      color: this.player.color,
+      rating,
+      round: i
+    }));
+    ratings.shift();
+    return ratings;
+  }
+
+  /**
    * Calculates the elo score after a match
    * @param {PlayerRating} opponent 
    * @param {Number} result Is 1 if player has won, 0 if remis and -1 if player has lost
@@ -82,7 +97,7 @@ export default class PlayerRating {
     } else if (result === 0) {
       this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (0.5 - expectationValue).toFixed(1);
     }
-    
+
   }
 
   /**

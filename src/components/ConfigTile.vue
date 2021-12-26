@@ -11,7 +11,7 @@
               :key="matchMaker.value"
               :label="matchMaker.label"
               :value="matchMaker.value"
-              :disabled="matchMaker.value === 'manual' ||matchMaker.value === 'seeding'"
+              :disabled="matchMaker.value !== 'random'"
             ></v-radio>
           </v-radio-group>
         </v-col>

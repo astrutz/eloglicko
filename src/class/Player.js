@@ -34,13 +34,17 @@ export default class Player {
    *
    * This function uses 1, 0 and -1 to represent the result, so it can easily be used for sorting by strength
    * @param {Player} other
+   * @param {boolean} isRandom Randomize play outcome basedon strength
    * @returns {number} 1 if this player wins, 0 if it's a draw and -1 for a loss against player other.
    */
-  winsAgainst(other) {
-    //TODO: Add a boolean useRandom and calculate with 
-    // this.strength * Math.random() < other.strength * Math.random
-    if (!other || this.strength > other.strength) return 1;
-    if (this.strength === other.strength) return 0;
+  winsAgainst(other, isRandom=false) {
+    const thisStrengthFactor = isRandom ? Math.random() : 1;
+    const otherStrengthFactor = isRandom ? Math.random() : 1;
+    const thisPlayingStrength = thisStrengthFactor * this.strength;
+    const otherPlayingStrength = otherStrengthFactor * this.strength;
+    
+    if (!other || thisPlayingStrength > otherPlayingStrength) return 1;
+    if (thisPlayingStrength === otherPlayingStrength) return 0;
     return -1;
   }
 }

@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     getDisplayName(playerRating) {
-      // playerRating.ratings[roundNumber + 1]
+      // If rating instead of strength: playerRating.ratings[roundNumber + 1]
       return `${playerRating.player.name} (${playerRating.player.strength})`;
     },
     isUpset(winnerPlayerRating, loserPlayerRating) {

@@ -51,7 +51,6 @@ export default {
       return [lowest - 10, highest + 10];
     },
     setUpChart() {
-      // FIXME: Change Xscale, so rounds are only integers
       d3.select("svg").remove();
       this.svg = this.LineChart(this.dataset, {
         x: (d) => d.round,
@@ -127,7 +126,7 @@ export default {
       const yScale = yType(yDomain, yRange);
       const xAxis = d3
         .axisBottom(xScale)
-        .ticks(width / 80)
+        .ticks(xDomain[1] < 15 ? xDomain[1] : 15, "f")
         .tickSizeOuter(0);
       const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
 

@@ -15,14 +15,14 @@ export default class Player {
   /**
    * @type {string} The ID of the player
    */
-   id;
+  id;
 
   /**
    * @param {Object} options
    * @param {number} options.strength
    * @param {string} options.color
    */
-  constructor({ strength, color = "#000", name = "", id="" }) {
+  constructor({ strength, color = "#000", name = "", id = "" }) {
     this.strength = strength;
     this.color = color;
     this.name = name;
@@ -37,12 +37,12 @@ export default class Player {
    * @param {boolean} isRandom Randomize play outcome basedon strength
    * @returns {number} 1 if this player wins, 0 if it's a draw and -1 for a loss against player other.
    */
-  winsAgainst(other, isRandom=false) {
+  winsAgainst(other, isRandom = false) {
     const thisStrengthFactor = isRandom ? Math.random() : 1;
     const otherStrengthFactor = isRandom ? Math.random() : 1;
     const thisPlayingStrength = thisStrengthFactor * this.strength;
-    const otherPlayingStrength = otherStrengthFactor * this.strength;
-    
+    const otherPlayingStrength = otherStrengthFactor * other.strength;
+
     if (!other || thisPlayingStrength > otherPlayingStrength) return 1;
     if (thisPlayingStrength === otherPlayingStrength) return 0;
     return -1;

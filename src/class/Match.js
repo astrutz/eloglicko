@@ -19,6 +19,7 @@ export default class Match {
     this.id = uuidv4();
     this.opponents = [playerRatingA, playerRatingB];
     if (playerRatingB) {
+      // TODO: Use random?
       const result = playerRatingA.player.winsAgainst(playerRatingB.player);
       if (result < 0) {
         this.winner = playerRatingB;

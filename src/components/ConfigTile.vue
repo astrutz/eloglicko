@@ -11,7 +11,6 @@
               :key="matchMaker.value"
               :label="matchMaker.label"
               :value="matchMaker.value"
-              :disabled="matchMaker.value !== 'random'"
             ></v-radio>
           </v-radio-group>
         </v-col>
@@ -23,6 +22,7 @@
               :key="ratingSystem.value"
               :label="ratingSystem.label"
               :value="ratingSystem.value"
+              :disabled="ratingSystem.value !== 'elo'"
             ></v-radio>
           </v-radio-group>
         </v-col>
@@ -36,11 +36,6 @@
             type="number"
             :rules="numberOfMatchesPerPlayerRules"
           ></v-text-field>
-          <v-checkbox
-            v-model="multipleMatches"
-            label="Spieler können mehrfach aufeinander treffen"
-            disabled
-          ></v-checkbox>
         </v-col>
       </v-row>
     </v-card-text>
@@ -72,7 +67,6 @@ export default {
       { label: "Zufällig", value: "random" },
       { label: "Setzliste", value: "seeding" },
       { label: "Möglichst gleich starke Gegner", value: "evenOpponents" },
-      { label: "Manuell", value: "manual" },
     ],
     chosenRatingSystem: null,
     ratingSystems: [
@@ -81,7 +75,6 @@ export default {
     ],
     numberOfMatchesPerPlayerRules: [(v) => v > 0 || "Mindestanzahl: 1 Spiel"],
     numberOfMatchesPerPlayer: 1,
-    multipleMatches: false,
     showSnackbar: false,
     snackbarText: "Lege mindestens einen Spieler an!",
   }),

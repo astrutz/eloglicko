@@ -37,7 +37,10 @@ export default class MatchMaker {
    * @returns {[[PlayerRating]]} A list of opponents
    */
   getCurrentRatingPairMatches() {
+    this.ranking.sortPlayerRatingsByCurrentRatingDesc();
+
     const res = [];
+    const playersWithAMatch = [];
     // the minus one is, so we don't get a single element if we have an odd number of players
     for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
       res.push(
@@ -46,11 +49,13 @@ export default class MatchMaker {
           this.ranking.playerRatings[i + 1]
         )
       );
+      playersWithAMatch.push(this.ranking.playerRatings[i].player, this.ranking.playerRatings[i + 1].player);
     }
-    // TODO: Track if a player misses a round ("spielfrei") - set the same current rating again and add a match with null a opponent
-    // playerRatingsCopy.forEach((rating) => {
-    //   res.push(new Match(...[rating, null]));
-    // });
+    this.ranking.playerRatings.forEach((rating) => {
+      if(!playersWithAMatch.find((player) => player.id === rating.player.id)) {
+        res.push(new Match(...[rating, null]));
+      }
+    });
     return res;
   }
 
@@ -95,6 +100,8 @@ export default class MatchMaker {
    */
   getSeedingMatches() {
     const res = [];
+    // TODO: Spielfrei
+    // const playersWithAMatch = [];
     // the minus one is, so we don't get a single element if we have an odd number of players
     for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
       res.push(
@@ -103,11 +110,14 @@ export default class MatchMaker {
           this.ranking.playerRatings[this.ranking.playerRatings.length - i]
         )
       );
+      // playersWithAMatch.push(this.ranking.playerRatings[i].player, this.ranking.playerRatings[this.ranking.playerRatings.length - i].player);
     }
-    // TODO: Track if a player misses a round ("spielfrei") - set the same current rating again and add a match with null a opponent
-    // playerRatingsCopy.forEach((rating) => {
-    //   res.push(new Match(...[rating, null]));
+    // this.ranking.playerRatings.forEach((rating) => {
+    //   if(!playersWithAMatch.find((player) => player.id === rating.player.id)) {
+    //     res.push(new Match(...[rating, null]));
+    //   }
     // });
+    console.log(res);
     return res;
   }
 }

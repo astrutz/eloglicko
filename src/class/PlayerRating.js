@@ -11,6 +11,7 @@ export default class PlayerRating {
   ELO_INITIAL_RATING = 100;
   GLICKO_RATING_DEVIATION = 350;
   GLICKO_INITIAL_RATING = 1500;
+  GLICKO_C = 34.64;
 
   /**
    * @type {[number]}
@@ -109,8 +110,8 @@ export default class PlayerRating {
     if (this.ratings.length === 1) {
       this.currentRating = this.GLICKO_INITIAL_RATING;
     }
-    // TODO: Use a good c
-    // const c = 34.64;
+    // const c = this.GLICKO_C;
+    // TODO: Add t, if player was spielfrei
     // const ratingDeviation = Math.min(Math.sqrt(Math.pow(this.currentRating, this.currentRating) + Math.pow(c, c)), this.GLICKO_RATING_DEVIATION);
     // TODO: What's next
   }

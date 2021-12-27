@@ -1,5 +1,5 @@
 <template>
-  <v-card style="max-height: 600px" elevation="2">
+  <v-card v-if="currentTournament" style="max-height: 600px" elevation="2">
     <v-card-title>Graph</v-card-title>
     <v-card-text>
       <div id="chart"></div>
@@ -51,6 +51,7 @@ export default {
       return [lowest - 10, highest + 10];
     },
     setUpChart() {
+      // FIXME: Change Xscale, so rounds are only integers
       d3.select("svg").remove();
       this.svg = this.LineChart(this.dataset, {
         x: (d) => d.round,

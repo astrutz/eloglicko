@@ -37,6 +37,8 @@ export default class Player {
    * @returns {number} 1 if this player wins, 0 if it's a draw and -1 for a loss against player other.
    */
   winsAgainst(other) {
+    //TODO: Add a boolean useRandom and calculate with 
+    // this.strength * Math.random() < other.strength * Math.random
     if (!other || this.strength > other.strength) return 1;
     if (this.strength === other.strength) return 0;
     return -1;

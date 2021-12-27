@@ -36,6 +36,10 @@
             type="number"
             :rules="numberOfMatchesPerPlayerRules"
           ></v-text-field>
+          <v-checkbox
+            v-model="useRandom"
+            label="Schwächere Spieler können zufällig gegen andere Spieler gewinnen"
+          ></v-checkbox>
         </v-col>
       </v-row>
     </v-card-text>
@@ -75,6 +79,7 @@ export default {
     ],
     numberOfMatchesPerPlayerRules: [(v) => v > 0 || "Mindestanzahl: 1 Spiel"],
     numberOfMatchesPerPlayer: 1,
+    useRandom: false,
     showSnackbar: false,
     snackbarText: "Lege mindestens einen Spieler an!",
   }),
@@ -85,6 +90,7 @@ export default {
         ratingSystem: this.chosenRatingSystem,
         numberOfMatchesPerPlayer: parseInt(this.numberOfMatchesPerPlayer),
         multipleMatches: this.multipleMatches,
+        useRandom: this.useRandom,
       };
       this.$store.commit("setConfiguration", configuration);
       if (this.$store.state.players.length !== 0) {

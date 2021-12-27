@@ -1,4 +1,5 @@
 import Match from './Match.js';
+import store from '../plugins/store';
 
 export default class MatchMaker {
   /**
@@ -46,13 +47,14 @@ export default class MatchMaker {
       res.push(
         new Match(
           this.ranking.playerRatings[i],
-          this.ranking.playerRatings[i + 1]
+          this.ranking.playerRatings[i + 1],
+          store.state.configuration.useRandom
         )
       );
       playersWithAMatch.push(this.ranking.playerRatings[i].player, this.ranking.playerRatings[i + 1].player);
     }
     this.ranking.playerRatings.forEach((rating) => {
-      if(!playersWithAMatch.find((player) => player.id === rating.player.id)) {
+      if (!playersWithAMatch.find((player) => player.id === rating.player.id)) {
         res.push(new Match(...[rating, null]));
       }
     });
@@ -77,7 +79,7 @@ export default class MatchMaker {
           )
         );
       }
-      res.push(new Match(...opponents));
+      res.push(new Match(...opponents, store.state.configuration.useRandom));
     }
     playerRatingsCopy.forEach((rating) => {
       res.push(new Match(...[rating, null]));
@@ -107,7 +109,8 @@ export default class MatchMaker {
       res.push(
         new Match(
           this.ranking.playerRatings[i],
-          this.ranking.playerRatings[this.ranking.playerRatings.length - i]
+          this.ranking.playerRatings[this.ranking.playerRatings.length - i],
+          store.state.configuration.useRandom
         )
       );
       // playersWithAMatch.push(this.ranking.playerRatings[i].player, this.ranking.playerRatings[this.ranking.playerRatings.length - i].player);
@@ -117,7 +120,6 @@ export default class MatchMaker {
     //     res.push(new Match(...[rating, null]));
     //   }
     // });
-    console.log(res);
     return res;
   }
 }

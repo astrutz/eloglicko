@@ -15,12 +15,11 @@ export default class Match {
    * @param {PlayerRating} playerRatingA
    * @param {PlayerRating} playerRatingB
    */
-  constructor(playerRatingA, playerRatingB) {
+  constructor(playerRatingA, playerRatingB, useRandom = false) {
     this.id = uuidv4();
     this.opponents = [playerRatingA, playerRatingB];
     if (playerRatingB) {
-      // TODO: Use random?
-      const result = playerRatingA.player.winsAgainst(playerRatingB.player);
+      const result = playerRatingA.player.winsAgainst(playerRatingB.player, useRandom);
       if (result < 0) {
         this.winner = playerRatingB;
         this.loser = playerRatingA;

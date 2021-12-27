@@ -4,7 +4,7 @@
     <v-card-text>
       <v-row>
         <v-col
-          cols="3"
+          cols="4"
           v-for="(round, index) in currentTournament.matches"
           :key="index"
         >
@@ -12,16 +12,22 @@
             <v-card-title>Runde {{ index + 1 }}</v-card-title>
             <v-card-text>
               <p v-for="match in round" :key="match.id">
-                <span v-if="match.winner">
-                  {{ match.winner.player.name }} gewinnt gegen
-                  {{ match.loser.player.name }}
+                <span
+                  v-if="match.winner"
+                  :class="
+                    isUpset(match.winner, match.loser, index) ? 'upset' : ''
+                  "
+                >
+                  {{ getDisplayName(match.winner, index) }} gewinnt gegen
+                  {{ getDisplayName(match.loser, index) }}
                 </span>
                 <span v-else-if="match.loser === -1">
-                  {{ match.opponents[0].player.name }} hat spielfrei
+                  {{ getDisplayName(match.opponents[0], index) }} hat spielfrei
                 </span>
                 <span v-else>
-                  {{ match.opponents[0].player.name }} spielt remis gegen
-                  {{ match.opponents[1].player.name }}
+                  {{ getDisplayName(match.opponents[0], index) }} spielt remis
+                  gegen
+                  {{ getDisplayName(match.opponents[1], index) }}
                 </span>
               </p>
             </v-card-text>
@@ -41,5 +47,22 @@ export default {
       return this.$store.state.currentTournament;
     },
   },
+  methods: {
+    getDisplayName(playerRating) {
+      // playerRating.ratings[roundNumber + 1]
+      return `${playerRating.player.name} (${playerRating.player.strength})`;
+    },
+    isUpset(winnerPlayerRating, loserPlayerRating) {
+      return (
+        winnerPlayerRating.player.strength < loserPlayerRating.player.strength
+      );
+    },
+  },
 };
 </script>
+
+<style scoped>
+.upset {
+  color: red;
+}
+</style>

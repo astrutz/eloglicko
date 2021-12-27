@@ -10,7 +10,8 @@ export default new Vuex.Store({
       matchMaker: 'random',
       ratingSystem: 'elo',
       numberOfMatchesPerPlayer: 0,
-      multipleMatches: false
+      multipleMatches: false,
+      useRandom: false,
     },
     currentTournament: null,
     tournamentHistory: []

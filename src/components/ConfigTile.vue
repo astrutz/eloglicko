@@ -22,7 +22,6 @@
               :key="ratingSystem.value"
               :label="ratingSystem.label"
               :value="ratingSystem.value"
-              :disabled="ratingSystem.value !== 'elo'"
             ></v-radio>
           </v-radio-group>
         </v-col>

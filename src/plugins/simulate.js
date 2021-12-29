@@ -127,6 +127,12 @@ function setPlayerRatingsGlicko(matches, ranking) {
 
   // Update all players glickoTimeSinceLastGame+=1
   ranking.playerRatings.forEach(
-    (playerRating) => playerRating.glickoTimeSinceLastGame++
+    (playerRating) => {
+      playerRating.glickoTimeSinceLastGame++;
+      // this player hat a free pass this round, so his ratings were duplicated
+      if (!newRatings.has(playerRating)) {
+        playerRating.currentRating = playerRating.currentRating;
+      }
+    }
   );
 }

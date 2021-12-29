@@ -131,6 +131,7 @@ function setPlayerRatingsGlicko(matches, ranking) {
       playerRating.glickoTimeSinceLastGame++;
       // this player hat a free pass this round, so his ratings were duplicated
       if (!newRatings.has(playerRating)) {
+        // eslint-disable-next-line no-self-assign
         playerRating.currentRating = playerRating.currentRating;
       }
     }

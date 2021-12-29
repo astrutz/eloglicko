@@ -1,6 +1,7 @@
 <template>
-  <v-card v-if="currentTournament" style="max-height: 600px" elevation="2">
-    <v-card-title>Graph</v-card-title>
+  <v-card style="max-height: 600px" elevation="2">
+    <v-card-title v-if="currentTournament">Darstellung der Ratings als Graph</v-card-title>
+    <v-card-title v-else>Lege mindestens zwei Spieler an und starte ein Turnier!</v-card-title>
     <v-card-text>
       <div id="chart"></div>
     </v-card-text>

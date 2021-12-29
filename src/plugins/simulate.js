@@ -102,12 +102,23 @@ function setPlayerRatingsGlicko(matches, ranking) {
     if (!matchResultsByPlayer.has(match.loser)) {
       matchResultsByPlayer.set(match.loser, []);
     }
-    matchResultsByPlayer
-      .get(match.winner)
-      .push({ opponent: match.loser, result: 1 });
-    matchResultsByPlayer
-      .get(match.loser)
-      .push({ opponent: match.winner, result: 1 });
+    if (!match.winner) {
+      // draw
+      matchResultsByPlayer
+        .get(match.opponents[0])
+        .push({ opponent: match.opponents[1], result: 0.5 });
+      matchResultsByPlayer
+        .get(match.opponents[1])
+        .push({ opponent: match.opponents[0], result: 0.5 });
+    } else {
+      // one player won
+      matchResultsByPlayer
+        .get(match.winner)
+        .push({ opponent: match.loser, result: 1 });
+      matchResultsByPlayer
+        .get(match.loser)
+        .push({ opponent: match.winner, result: 1 });
+    }
   }
 
   // Update player Rating and RD

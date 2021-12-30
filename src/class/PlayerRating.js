@@ -89,7 +89,7 @@ export default class PlayerRating {
       name: this.player.name,
       color: this.player.color,
       rating,
-      round: i - 1
+      round: i - 1,
     }));
     ratings.shift();
     return ratings;
@@ -97,54 +97,77 @@ export default class PlayerRating {
 
   /**
    * Calculates the elo score after a match
-   * @param {PlayerRating} opponent 
+   * @param {PlayerRating} opponent
    * @param {Number} result Is 1 if player has won, 0 if remis and -1 if player has lost
    */
   calculateEloScore(opponent, result) {
     if (this.ratings.length === 1) {
       this.currentRating = this.ELO_INITIAL_RATING;
     }
-    const expectationValue = parseFloat((1 / (1 + Math.pow(10, ((this.currentRating - opponent.currentRating) / this.ELO_KENNETH_HARKNESS_MAGIC)))).toFixed(3));
+    const expectationValue = parseFloat(
+      (
+        1 /
+        (1 +
+          Math.pow(
+            10,
+            (this.currentRating - opponent.currentRating) /
+              this.ELO_KENNETH_HARKNESS_MAGIC
+          ))
+      ).toFixed(3)
+    );
     if (result === 1) {
-      this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (1 - expectationValue).toFixed(1);
+      this.currentRating =
+        this.currentRating +
+        this.ELO_MAX_POSSIBLE_POINTSWITCH * (1 - expectationValue).toFixed(1);
     } else if (result === -1) {
-      this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (0 - expectationValue).toFixed(1);
+      this.currentRating =
+        this.currentRating +
+        this.ELO_MAX_POSSIBLE_POINTSWITCH * (0 - expectationValue).toFixed(1);
     } else if (result === 0) {
-      this.currentRating = this.currentRating + this.ELO_MAX_POSSIBLE_POINTSWITCH * (0.5 - expectationValue).toFixed(1);
+      this.currentRating =
+        this.currentRating +
+        this.ELO_MAX_POSSIBLE_POINTSWITCH * (0.5 - expectationValue).toFixed(1);
     }
-
   }
 
   /**
    * Calculates the glicko score after a match
-   * @param {{opponent: PlayerRating, result: 0|0.5|1}[]} matchResults 
+   * @param {{opponent: PlayerRating, result: 0|0.5|1}[]} matchResults
    * @returns {number} New Rating after round
    */
   calculateGlickoScore(matchResults) {
-    let newRating =
-      this.currentRating +
-      this.GLICKO_Q / (1 / this.glickoRoundRD ** 2 + 1 / this.glickoD2(matchResults));
-
+    let ratingChange = 0;
     for (const matchResult of matchResults) {
       const opponent = matchResult.opponent;
-      newRating +=
+      ratingChange +=
         this.glickoG(opponent.glickoRoundRD) *
         (matchResult.result -
-          this.glickoE(opponent.glickoRoundRD, this.currentRating - opponent.currentRating));
+          this.glickoE(
+            opponent.glickoRoundRD,
+            this.currentRating - opponent.currentRating
+          ));
     }
+
+    let newRating =
+      this.currentRating +
+      (this.GLICKO_Q /
+        (1 / this.glickoRoundRD ** 2 + 1 / this.glickoD2(matchResults))) *
+        ratingChange;
 
     return Math.round(newRating);
   }
 
   /**
    * Calculate the new player RD for the next Round
-   * @param {{opponent: PlayerRating, result: 0|0.5|1}[]} matchResults 
+   * @param {{opponent: PlayerRating, result: 0|0.5|1}[]} matchResults
    * @returns {number} New RD
    */
   glickoNewPlayerRD(matchResults) {
-    return Math.round(Math.sqrt(
-      1 / (1 / this.glickoRoundRD ** 2 + 1 / this.glickoD2(matchResults))
-    ));
+    return Math.round(
+      Math.sqrt(
+        1 / (1 / this.glickoRoundRD ** 2 + 1 / this.glickoD2(matchResults))
+      )
+    );
   }
 
   /**
@@ -191,7 +214,10 @@ export default class PlayerRating {
     let d2 = 0;
     for (const match of matchResults) {
       const opponent = match.opponent;
-      const E = this.glickoE(opponent.glickoRoundRD, this.currentRating - opponent.currentRating);
+      const E = this.glickoE(
+        opponent.glickoRoundRD,
+        this.currentRating - opponent.currentRating
+      );
       d2 +=
         1 /
         (this.GLICKO_Q ** 2 *
@@ -209,7 +235,6 @@ export default class PlayerRating {
     return 1 / Math.sqrt(1 + (3 * this.GLICKO_Q ** 2 * rd ** 2) / Math.PI ** 2);
   }
 
-
   /**
    * Calculates win probability for glicko calcs
    * @param {number} rd RD
@@ -219,5 +244,4 @@ export default class PlayerRating {
   glickoE(rd, deltaR) {
     return 1 / (1 + 10 ** (-(this.glickoG(rd) * deltaR) / 400));
   }
-
 }

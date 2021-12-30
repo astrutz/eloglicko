@@ -117,7 +117,7 @@ function setPlayerRatingsGlicko(matches, ranking) {
         .push({ opponent: match.loser, result: 1 });
       matchResultsByPlayer
         .get(match.loser)
-        .push({ opponent: match.winner, result: 1 });
+        .push({ opponent: match.winner, result: 0 });
     }
   }
 

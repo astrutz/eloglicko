@@ -148,11 +148,11 @@ export default class PlayerRating {
           ));
     }
 
-    let newRating =
-      this.currentRating +
-      (this.GLICKO_Q /
-        (1 / this.glickoRoundRD ** 2 + 1 / this.glickoD2(matchResults))) *
-        ratingChange;
+    const changeScaling =
+      this.GLICKO_Q /
+      (1 / this.glickoRoundRD ** 2 + 1 / this.glickoD2(matchResults));
+
+    let newRating = this.currentRating + changeScaling * ratingChange;
 
     return Math.round(newRating);
   }

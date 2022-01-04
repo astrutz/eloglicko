@@ -57,6 +57,7 @@ export default {
         x: (d) => d.round,
         y: (d) => d.rating,
         z: (d) => d.name,
+        title: (d) => d.title,
         xLabel: "Runde",
         yLabel: "↑ Rating",
         width: 1200,

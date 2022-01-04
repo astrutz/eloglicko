@@ -90,6 +90,7 @@ export default class PlayerRating {
       color: this.player.color,
       rating,
       round: i - 1,
+      title: `${this.player.name} (Rating: ${rating})`
     }));
     ratings.shift();
     return ratings;

@@ -32,7 +32,7 @@ function getMatches(matchMaker) {
   let matches;
   switch (store.state.configuration.matchMaker) {
     case 'random': matches = matchMaker.getRandomOpponentMatches(); break;
-    case 'seeding': matches = matchMaker.getSeedingMatches(); break;  // FIXME
+    case 'seeding': matches = matchMaker.getSeedingMatches(); break;
     case 'evenOpponents': matches = matchMaker.getCurrentRatingPairMatches(); break;
   }
   return matches;

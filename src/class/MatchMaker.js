@@ -34,30 +34,34 @@ export default class MatchMaker {
    * Will group Players like:
    * [[1, 2], [3, 4], [5, 6], ...]
    *
-   * If the number of players is odd, the last player will not play
+   * If the number of players is odd a random player will not play ("spielfrei")
    * @returns {[[PlayerRating]]} A list of opponents
    */
   getCurrentRatingPairMatches() {
     this.ranking.sortPlayerRatingsByCurrentRatingDesc();
-
+    const playerRatingsCopy = [...this.ranking.playerRatings];
     const res = [];
-    const playersWithAMatch = [];
+    let freilosPlayerRating;
+
+    // Give a random player "spielfrei"
+    if (playerRatingsCopy.length % 2 !== 0) {
+      freilosPlayerRating = playerRatingsCopy.splice(Math.floor(Math.random() * playerRatingsCopy.length), 1);
+    }
+
     // the minus one is, so we don't get a single element if we have an odd number of players
-    for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
+    for (let i = 0; i < playerRatingsCopy.length; i += 2) {
       res.push(
         new Match(
-          this.ranking.playerRatings[i],
-          this.ranking.playerRatings[i + 1],
+          playerRatingsCopy[i],
+          playerRatingsCopy[i + 1],
           store.state.configuration.useRandom
         )
       );
-      playersWithAMatch.push(this.ranking.playerRatings[i].player, this.ranking.playerRatings[i + 1].player);
     }
-    this.ranking.playerRatings.forEach((rating) => {
-      if (!playersWithAMatch.find((player) => player.id === rating.player.id)) {
-        res.push(new Match(...[rating, null]));
-      }
-    });
+    if (freilosPlayerRating) {
+      res.push(new Match(...[freilosPlayerRating[0], null]));
+    }
+
     return res;
   }
 
@@ -97,29 +101,33 @@ export default class MatchMaker {
    * For 8 players it will be:
    * [[1, 8], [2, 7], [3, 6], [4, 5]]
    *
-   * If the number of players is odd, the last player will not play
+   * If the number of players is odd a random player will not play ("spielfrei")
    * @returns {[[PlayerRating]]} A list of opponents
    */
   getSeedingMatches() {
+    this.ranking.sortPlayerRatingsByCurrentRatingDesc();
+    const playerRatingsCopy = [...this.ranking.playerRatings];
     const res = [];
-    // TODO: Spielfrei
-    // const playersWithAMatch = [];
-    // the minus one is, so we don't get a single element if we have an odd number of players
-    for (let i = 0; i < this.ranking.playerRatings.length - 1; i += 2) {
+    let freilosPlayerRating;
+
+
+    // Give a random player "spielfrei"
+    if (playerRatingsCopy.length % 2 !== 0) {
+      freilosPlayerRating = playerRatingsCopy.splice(Math.floor(Math.random() * playerRatingsCopy.length), 1);
+    }
+
+    for (let i = 0; i < playerRatingsCopy.length / 2; i++) {
       res.push(
         new Match(
-          this.ranking.playerRatings[i],
-          this.ranking.playerRatings[this.ranking.playerRatings.length - i],
+          playerRatingsCopy[i],
+          playerRatingsCopy[playerRatingsCopy.length - i - 1],
           store.state.configuration.useRandom
         )
       );
-      // playersWithAMatch.push(this.ranking.playerRatings[i].player, this.ranking.playerRatings[this.ranking.playerRatings.length - i].player);
     }
-    // this.ranking.playerRatings.forEach((rating) => {
-    //   if(!playersWithAMatch.find((player) => player.id === rating.player.id)) {
-    //     res.push(new Match(...[rating, null]));
-    //   }
-    // });
+    if (freilosPlayerRating) {
+      res.push(new Match(...[freilosPlayerRating[0], null]));
+    }
     return res;
   }
 }
